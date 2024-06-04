@@ -13,6 +13,9 @@ import TableRow from "@mui/material/TableRow";
 import TextField from "@mui/material/TextField";
 import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/system";
 
 export default function Informations() {
   const [data, setData] = useState([]);
@@ -31,6 +34,13 @@ export default function Informations() {
   ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -53,74 +63,83 @@ export default function Informations() {
   }, []);
 
   return (
-    <Page>
-      <TitleContainer>
-        <Logo src={logo} alt="Logo" />
-      </TitleContainer>
+    <>
+      <Box display="flex" justifyContent="flex-start" marginLeft={2} marginTop={1}>
+        <Button variant="contained" color="success" onClick={handleLogout}>
+          Logout
+        </Button>
+      </Box>
+      <Page>
+        <TitleContainer>
+          <Logo src={logo} alt="Logo" />
+        </TitleContainer>
 
-      <TextField
-        sx={{ width: 400, backgroundColor: "#ffffff", margin: 2 }}
-        label="Pesquisar"
-        value={search}
-        onChange={handleSearchChange}
-      />
+        <TextField
+          sx={{ width: 400, backgroundColor: "#ffffff", margin: 2 }}
+          label="Pesquisar"
+          value={search}
+          onChange={handleSearchChange}
+        />
 
-      <TableContainer
-        component={Paper}
-        sx={{ maxHeight: 440, maxWidth: 1800, minWidth: 120 }}
-      >
-        <Table stickyHeader aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>IP</TableCell>
-              <TableCell>Nome</TableCell>
-              <TableCell align="right">CPF</TableCell>
-              <TableCell align="right">Telefone</TableCell>
-              <TableCell align="right">Valor</TableCell>
-              <TableCell align="right">Método de Pagamento</TableCell>
-              <TableCell align="right">Tipo</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data
-              .filter((row: UserData) =>
-                row.name.toLowerCase().includes(search.toLowerCase())
-              )
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: UserData) => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {row.ip}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.cpf}</TableCell>
-                  <TableCell align="right">{row.cellphone}</TableCell>
-                  <TableCell align="right">R${row.value}</TableCell>
-                  <TableCell align="center">{row.payment}</TableCell>
-                  <TableCell align="right">
-                    {row.type === "buy" ? "Comprar" : "Vender"}
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        sx={{ backgroundColor: "#ffffff", overflow: "hidden" }}
-        rowsPerPageOptions={[10, 15, 20]}
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Page>
+        <TableContainer
+          component={Paper}
+          sx={{ maxHeight: 440, maxWidth: 1800, minWidth: 120 }}
+        >
+          <Table stickyHeader aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>IP</TableCell>
+                <TableCell>Nome</TableCell>
+                <TableCell align="right">CPF</TableCell>
+                <TableCell align="right">Telefone</TableCell>
+                <TableCell align="right">Valor</TableCell>
+                <TableCell align="right">Método de Pagamento</TableCell>
+                <TableCell align="right">Tipo</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data
+                .filter(
+                  (row: UserData) =>
+                    row.id.toLowerCase().includes(search.toLowerCase()) ||
+                    row.name.toLowerCase().includes(search.toLowerCase())
+                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: UserData) => (
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.id}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.ip}
+                    </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.cpf}</TableCell>
+                    <TableCell align="right">{row.cellphone}</TableCell>
+                    <TableCell align="right">R${row.value}</TableCell>
+                    <TableCell align="center">{row.payment}</TableCell>
+                    <TableCell align="right">
+                      {row.type === "buy" ? "Comprar" : "Vender"}
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          sx={{ backgroundColor: "#ffffff", overflow: "hidden" }}
+          rowsPerPageOptions={[10, 15, 20]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Page>
+    </>
   );
 }

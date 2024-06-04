@@ -8,15 +8,19 @@ import {
   FormGroup,
   SwitchContainer,
   Label,
+  ContainerModal,
+  ContentBox,
 } from "./styles";
 import logo from "../../assets/logo.png";
 import api from "../../service/api";
 import { toast } from "react-toastify";
 import Button from "../../components/button/button";
-
 import { Switch } from "@mui/material";
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+  const [showModalId, setShowModalId] = useState(false);
+  const [responseId, setResponseId] = useState("");
   const [form, setForm] = useState({
     value: "",
     payment: "",
@@ -32,7 +36,7 @@ export default function Home() {
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const numericValue = parseFloat(form.value.replace(/[R$\.,]/g, ""));
     if (numericValue < 500) {
@@ -42,7 +46,7 @@ export default function Home() {
           position: toast.POSITION.TOP_RIGHT,
         }
       );
-      return; 
+      return;
     }
 
     try {
@@ -57,15 +61,28 @@ export default function Home() {
 
       const response = await api.post("/sales", formData);
 
-      if (response.status === 200)
-        toast.success("Compra confirmada, aguarde nosso contato", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+      if (response.status === 200) {
+        setResponseId(response.data[0].id);
+        setShowModalId(true);
+        navigator.clipboard.writeText(response.data[0].id);
+      }
+
+      // toast.success("Compra confirmada, aguarde nosso contato", {
+      //   position: toast.POSITION.TOP_RIGHT,
+      // });
     } catch (error: any) {
-      console.log(error.response.data);
       toast.error(`${error.response.data.message}` || "Erro inesperado", {
         position: toast.POSITION.TOP_RIGHT,
       });
+    }
+  };
+
+  const handleClose = (open?: boolean) => {
+    setShowModal(false);
+    setShowModalId(false);
+
+    if (open) {
+      window.open("https://t.me/P2PIX_OFC", "_blank");
     }
   };
 
@@ -170,8 +187,36 @@ export default function Home() {
           />
         </FormGroup>
 
-        <Button text="Confirmar Compra" color="#23742f" />
+        <Button
+          text={checked ? "Confirmar Venda" : "Confirmar Compra"}
+          color={checked ? "#9c4d4d" : "#23742f"}
+        />
       </FormContainer>
+
+      <ContainerModal
+        open={showModalId}
+        onClose={() => handleClose(true)}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <ContentBox>
+          <h2 id="simple-modal-title">
+            {checked ? "Confirmar Venda" : "Confirmar Compra"}
+          </h2>
+          <p id="simple-modal-description">
+            ID copiado na sua área de transferência, cole no chat do telegram ao
+            fechar.
+            <br />
+            ID: {responseId}
+          </p>
+          <Button
+            type="button"
+            text="Fechar"
+            color="#23742f"
+            onClick={handleClose}
+          />
+        </ContentBox>
+      </ContainerModal>
     </Page>
   );
 }

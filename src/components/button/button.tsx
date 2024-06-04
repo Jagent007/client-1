@@ -4,15 +4,18 @@ export default function Button({
   text,
   onClick,
   color,
-  size,
+  type,
+  disabled,
 }: {
   text: string;
   color?: string;
+  type?: "button" | "submit" | "reset";
   size?: string;
   onClick?: () => void;
+  disabled?: boolean;
 }) {
   return (
-    <StyledButton className="button" color={color} onClick={onClick}>
+    <StyledButton className="button" color={color} onClick={onClick} type={type} >
       {text}
     </StyledButton>
   );

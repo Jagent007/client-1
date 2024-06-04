@@ -1,4 +1,5 @@
 import styled  from "styled-components";
+import { Modal, Box } from "@mui/material";
 
 export const Page = styled.div`
   height: 100%;
@@ -79,4 +80,49 @@ export const SwitchContainer = styled.div`
     color: #aca9ec;
     margin: 1rem;
   }
+`;
+
+export const ContainerModal = styled(Modal)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ContentBox = styled(Box)`
+  border-radius: 5px;
+  background-color: #f0f7ff;
+  padding: 2rem;
+
+  #simple-modal-title{
+    font-family: "Roboto";
+    font-weight: 700;
+    color: #413430;
+    margin-bottom: 1rem;
+  }
+  
+  .cripto-select{
+    margin-bottom: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  
+  }
+
+  .modal-button{
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #61ce70;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+`;
+
+export const Boxinfo = styled.p`
+  font-family: "Roboto";
+  font-weight: 400;
+  color: #413430;
+  margin-bottom: 1rem;
 `;
