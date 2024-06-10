@@ -7,10 +7,11 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    overflow-x: hidden;
-    /* height: 100vh;
-    width: 100vw; */
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
     background-image: url("/background.png");
+    /* background-color: yellow; */
     background-repeat: no-repeat;
     background-size: cover;
     font-family: Roboto;

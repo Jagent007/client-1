@@ -68,9 +68,7 @@ export default function Home() {
         navigator.clipboard.writeText(response.data[0].id);
       }
 
-      // toast.success("Compra confirmada, aguarde nosso contato", {
-      //   position: toast.POSITION.TOP_RIGHT,
-      // });
+
     } catch (error: any) {
       toast.error(`${error.response.data.message}` || "Erro inesperado", {
         position: toast.POSITION.TOP_RIGHT,

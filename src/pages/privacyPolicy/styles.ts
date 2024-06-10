@@ -2,14 +2,13 @@ import styled, { css } from "styled-components";
 
 export const PrivacyPolicyContainer = styled.div`
   display: flex;
+  height: 95vh;
+  overflow-y: scroll;
   flex-direction: column;
   align-items: center;
   text-align: center;
   max-width: 900px;
-  margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  padding: 20px;
+  margin: 1rem auto;
   background-color: #61ce70;
   color: #fff;
   border-radius: 10px;
@@ -20,6 +19,6 @@ export const PrivacyPolicyContainer = styled.div`
   li,
   ul {
     margin-bottom: 20px;
-    line-height: 1.5; /* Adiciona espaçamento entre as linhas */
+    line-height: 1.5;
   }
 `;
