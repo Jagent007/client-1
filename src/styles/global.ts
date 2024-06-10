@@ -8,8 +8,8 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     overflow-x: hidden;
-    height: 100vh;
-    width: 100vw;
+    /* height: 100vh;
+    width: 100vw; */
     background-image: url("/background.png");
     background-repeat: no-repeat;
     background-size: cover;

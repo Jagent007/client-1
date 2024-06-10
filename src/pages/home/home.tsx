@@ -16,6 +16,7 @@ import api from "../../service/api";
 import { toast } from "react-toastify";
 import Button from "../../components/button/button";
 import { Switch } from "@mui/material";
+import Footer from "../../components/footer/footer";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -217,6 +218,7 @@ export default function Home() {
           />
         </ContentBox>
       </ContainerModal>
+      <Footer />
     </Page>
   );
 }
